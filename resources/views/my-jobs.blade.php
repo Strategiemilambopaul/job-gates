@@ -39,12 +39,13 @@
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
+                                    @forelse($jobs as $job )
                                     <tr class="active">
                                         <td>
-                                            <div class="job-name fw-500">Web Developer</div>
-                                            <div class="info1">Fulltime . Noida</div>
+                                            <div class="job-name fw-500">{{$job->title}}</div>
+                                            <div class="info1">{{$job->nature}} . {{$job->location}}</div>
                                         </td>
-                                        <td>05 Jun, 2023</td>
+                                        <td>{{$job->created_at->format('Y, M d | H:i')}}</td>
                                         <td>130 Applications</td>
                                         <td>
                                             <div class="job-status text-capitalize">active</div>
@@ -55,82 +56,21 @@
                                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                    <li><a class="dropdown-item" href="{{route('job-detail',['id'=>$job->id])}}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                                                    <li><a class="dropdown-item" href="{{route('post-job',['id'=>$job->id])}}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
+                                                    <form action="{{route('job-delete')}}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="delete" value="{{$job->id}}">
+                                                        <li><button type="submit" class="dropdown-item" onClick="alert('you want delete this jobs on your blog? ⛔')"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button></li>
+                                                    
+                                                    </form>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="pending">
-                                        <td>
-                                            <div class="job-name fw-500".html Developer</div>
-                                            <div class="info1">Part-time . Delhi</div>
-                                        </td>
-                                        <td>13 Aug, 2023</td>
-                                        <td>20 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">pending</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="expired">
-                                        <td>
-                                            <div class="job-name fw-500">Full Stack Developer</div>
-                                            <div class="info1">Fulltime . Noida</div>
-                                        </td>
-                                        <td>27 Sep, 2023</td>
-                                        <td>278 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">expired</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="active">
-                                        <td>
-                                            <div class="job-name fw-500">Developer for IT company</div>
-                                            <div class="info1">Fulltime . Goa</div>
-                                        </td>
-                                        <td>14 Feb, 2023</td>
-                                        <td>70 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">active</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @empty
+                                        <p> you don't have any jobs on your blog</p>
+                                    @endforelse
                                 </tbody>
                                 
                             </table>
@@ -141,28 +81,5 @@
         </div>
     </div>
 </section>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title pb-0" id="exampleModalLabel">Change Profile Picture</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Profile Image</label>
-                <input type="file" class="form-control" id="image"  name="image">
-            </div>
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary mx-3">Update</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-            
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
+@include('partials.Profilchanging')
 @include('partials.footer')

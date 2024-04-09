@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('photo_path')->after('mobile')->nullable();
+        Schema::table('jobs', function (Blueprint $table) {
+            $table->foreignId('user_id')->after('company_id')->constrained();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::table('users', function (Blueprint $table) {
-        //     $table->dropColumn('photo_path');
-        // });
+        Schema::table('jobs', function (Blueprint $table) {
+            //
+        });
     }
 };

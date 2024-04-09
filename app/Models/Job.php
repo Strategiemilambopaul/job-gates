@@ -15,12 +15,14 @@ class Job extends Model
     {
         return $this->hasOne(Company::class, 'id');
     }
-    public function companies()
-    {
-        return company::query()
-                    ->select('Companies.*')
-                    ->join('jobs', 'Companies.id', 'jobs.Company_id')
-                    ->where('Companies.id', '=', 'jobs.company_id')->get();
+    // public function companies()
+    // {
+    //     return company::query()
+    //                 ->select('Companies.*')
+    //                 ->join('jobs', 'Companies.id', 'jobs.Company_id')
+    //                 ->where('Companies.id', '=', 'jobs.company_id')->get();
                     
-    }
+    // }
+
+    
 }

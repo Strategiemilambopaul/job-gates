@@ -32,8 +32,9 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/my-jobs', [HomeController::class, 'my_jobs'])->name('my-jobs');
     Route::get('/saved-jobs', [HomeController::class, 'saved_jobs'])->name('saved-jobs');  
-    Route::get('/post-job', [HomeController::class, 'post_job'])->name('post-job');  
+    Route::get('/post-job/{id?}', [HomeController::class, 'post_job'])->name('post-job');  
     Route::post('/job-store', [HomeController::class, 'job_store'])->name('job-store');
+    Route::post('/job-delete', [HomeController::class, 'job_delete'])->name('job-delete');
     Route::post('/upload', [ProfileController::class, 'upload'])->name('profile.upload');
     Route::get('/account', [HomeController::class, 'account'])->name('account');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

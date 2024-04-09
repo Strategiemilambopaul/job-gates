@@ -43,12 +43,8 @@
                             <i class="me-2">{{@Auth::user()->name}}</i><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{route('account')}}"> <i class="fa fa-user" aria-hidden="true"></i> profile</a></li>
-                            <li><form action="{{route('logout')}}" method="post">
-							@csrf
-							<input type="hidden" name="logout">
-							<button type="submit" class="dropdown-item"><i class="fa fa-power" aria-hidden="true"></i> logout</button>
-							</form></li>
+                            <li><a class="dropdown-item" href="{{route('account')}}"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{{route('my-jobs')}}"> <i class="fa fa-eyes" aria-hidden="true"></i> My jobs</a></li>
                         </ul>
                     </div>
 				@else				
