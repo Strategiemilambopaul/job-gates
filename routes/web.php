@@ -16,24 +16,28 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/index', [HomeController::class, 'index'])->name('home');
+// Route::get('/', function () {
+//     return view('index');
+// });
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/job-applied', [HomeController::class, 'job_applied'])->name('job-applied');
-Route::get('/job-detail', [HomeController::class, 'job_detail'])->name('job-detail');
+Route::get('/job-detail/{id?}', [HomeController::class, 'job_detail'])->name('job-detail');
 Route::get('/jobs', [HomeController::class, 'jobs'])->name('jobs');
-Route::get('/my-jobs', [HomeController::class, 'my_jobs'])->name('my-jobs');
-Route::get('/saved-jobs', [HomeController::class, 'saved_jobs'])->name('saved-jobs');  
-Route::get('/post-job', [HomeController::class, 'post_job'])->name('post-job');  
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/my-jobs', [HomeController::class, 'my_jobs'])->name('my-jobs');
+    Route::get('/saved-jobs', [HomeController::class, 'saved_jobs'])->name('saved-jobs');  
+    Route::get('/post-job', [HomeController::class, 'post_job'])->name('post-job');  
+    Route::post('/job-store', [HomeController::class, 'job_store'])->name('job-store');
+    Route::post('/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+    Route::get('/account', [HomeController::class, 'account'])->name('account');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::match(['patch','post'],'/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

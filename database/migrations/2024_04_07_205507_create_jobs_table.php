@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
             $table->string('title');
+            $table->string('category');
             $table->string('nature');
             $table->string('vacancy');
             $table->string('salary');
@@ -23,8 +24,7 @@ return new class extends Migration
             $table->text('resposability')->nullable();
             $table->text('qualifications')->nullable();
             $table->string('keywords')->nullable();
-            $table->string('company');
-            $table->foreignId('company_id')->constrained();
+
             $table->timestamps();
         });
     }

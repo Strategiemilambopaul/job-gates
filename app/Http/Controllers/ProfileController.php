@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -16,7 +17,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('account', [
             'user' => $request->user(),
         ]);
     }
@@ -26,16 +27,23 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        
+        $user = User::find(Auth::id());
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->name=$request->name;
+        $user->email = $request->email;
+        $user->designation = $request->designation;
+        $user->mobile=$request->mobile;
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+ 
 
     /**
      * Delete the user's account.
@@ -56,5 +64,24 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function upload(Request $request)
+    {
+        $extension= $request->image->extension();
+        $filename = time().".".$extension;
+       
+        $path = $request->image->storeAs(
+            'avatars',
+            $filename,
+            'public'
+        );
+        
+       
+        $user = User::find(Auth::id());
+        $user->photo_path = $path;
+        $user->save();
+
+
+        return Redirect::route('post-job');
     }
 }

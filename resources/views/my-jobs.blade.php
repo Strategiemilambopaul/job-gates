@@ -13,37 +13,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <div class="card border-0 shadow mb-4 p-3">
-                    <div class="s-body text-center mt-3">
-                        <img src="assets/images/avatar7.png" alt="avatar"  class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="mt-3 pb-0">Mohit Singh</h5>
-                        <p class="text-muted mb-1 fs-6">Full Stack Developer</p>
-                        <div class="d-flex justify-content-center mb-2">
-                            <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-primary">Change Profile Picture</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card account-nav border-0 shadow mb-4 mb-lg-0">
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush ">
-                            <li class="list-group-item d-flex justify-content-between p-3">
-                                <a href="account.html">Account Settings</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="post-job.html">Post a Job</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="my-jobs.html">My Jobs</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="job-applied.html">Jobs Applied</a>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                <a href="saved-jobs.html">Saved Jobs</a>
-                            </li>                                                        
-                        </ul>
-                    </div>
-                </div>
+              @include('Home.usersSettings')
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4 p-3">
@@ -53,7 +23,7 @@
                                 <h3 class="fs-4 mb-1">My Jobs</h3>
                             </div>
                             <div style="margin-top: -10px;">
-                                <a href="post-job.html" class="btn btn-primary">Post a Job</a>
+                                <a href="{{route('post-job')}}" class="btn btn-primary">Post a Job</a>
                             </div>
                             
                         </div>

@@ -29,9 +29,31 @@
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="{{route('jobs')}}">Find Jobs</a>
 					</li>										
-				</ul>				
+				</ul>
+				<a class="btn btn-primary me-2" href="{{route('post-job')}}" type="submit">Post a Job</a>
+
+				@if(@Auth()->user())
+					<form action="{{route('logout')}}" method="post">
+						@csrf
+						<input type="hidden" name="logout">
+						<input type="submit" value="Logout" class="btn btn-outline-primary me-2">
+					</form>
+					<div class="action-dots float-end mx-20">
+                        <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="me-2">{{@Auth::user()->name}}</i><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{route('account')}}"> <i class="fa fa-user" aria-hidden="true"></i> profile</a></li>
+                            <li><form action="{{route('logout')}}" method="post">
+							@csrf
+							<input type="hidden" name="logout">
+							<button type="submit" class="dropdown-item"><i class="fa fa-power" aria-hidden="true"></i> logout</button>
+							</form></li>
+                        </ul>
+                    </div>
+				@else				
 				<a class="btn btn-outline-primary me-2" href="{{route('login')}}" type="submit">Login</a>
-				<a class="btn btn-primary" href="{{route('post-job')}}" type="submit">Post a Job</a>
+				@endif
 			</div>
 		</div>
 	</nav>
