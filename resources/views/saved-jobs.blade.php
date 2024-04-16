@@ -18,6 +18,9 @@
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4 p-3">
                     <div class="card-body card-form">
+                        @if($jobs->count()  < 1)
+                        <h3 class="fs-4 mb-1">You don't have any jobs saved on your blogs 🚫</h3>
+                        @else
                         <h3 class="fs-4 mb-1">Saved Jobs</h3>
                         <div class="table-responsive">
                             <table class="table ">
@@ -31,12 +34,13 @@
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
+                                @foreach($jobs as $job )
                                     <tr class="active">
                                         <td>
-                                            <div class="job-name fw-500">Web Developer</div>
-                                            <div class="info1">Fulltime . Noida</div>
+                                            <div class="job-name fw-500">{{$job->title}}</div>
+                                            <div class="info1">{{$job->nature}} . {{$job->location}}</div>
                                         </td>
-                                        <td>05 Jun, 2023</td>
+                                        <td>{{$job->created_at->format('Y, M d | H:i')}}</td>
                                         <td>130 Applications</td>
                                         <td>
                                             <div class="job-status text-capitalize">active</div>
@@ -47,80 +51,21 @@
                                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                    <li><a class="dropdown-item" href="{{route('job-detail',['id'=>$job->id])}}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                                                    <form action="{{route('job_saves-delete')}}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="delete" value="{{$job->id}}">
+                                                        <li><button type="submit" class="dropdown-item" onClick="alert('do you want to delete this job on your blog of jobs saved? ⛔')"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button></li>
+                                                    </form>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="pending">
-                                        <td>
-                                            <div class="job-name fw-500".html Developer</div>
-                                            <div class="info1">Part-time . Delhi</div>
-                                        </td>
-                                        <td>13 Aug, 2023</td>
-                                        <td>20 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">pending</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="expired">
-                                        <td>
-                                            <div class="job-name fw-500">Full Stack Developer</div>
-                                            <div class="info1">Fulltime . Noida</div>
-                                        </td>
-                                        <td>27 Sep, 2023</td>
-                                        <td>278 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">expired</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="active">
-                                        <td>
-                                            <div class="job-name fw-500">Developer for IT company</div>
-                                            <div class="info1">Fulltime . Goa</div>
-                                        </td>
-                                        <td>14 Feb, 2023</td>
-                                        <td>70 Applications</td>
-                                        <td>
-                                            <div class="job-status text-capitalize">active</div>
-                                        </td>
-                                        <td>
-                                            <div class="action-dots float-end">
-                                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
+
                             </table>
+                           @endif
                         </div>
                     </div>
                 </div> 

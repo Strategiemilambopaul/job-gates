@@ -95,9 +95,21 @@
                             <p>{{$job->benefits}}</p>
                         </div>
                         <div class="border-bottom"></div>
-                        <div class="pt-3 text-end">
-                            <a href="#" class="btn btn-secondary">Save</a>
-                            <a href="#" class="btn btn-primary">Apply</a>
+                        <div class="row">
+                            <div class="col-md-2 mb-3 mb-sm-3 mb-lg-0 mt-2">
+                                <form action="{{route('set-job')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="save" value="{{$job->id}}">
+                                    <input type="submit" value="Save" class="btn btn-secondary">
+                                </form>
+                            </div>
+                            <div  class="col-md-2 mb-3 mb-sm-3 mb-lg-0 mt-2">
+                                <form action="{{route('set-job')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="apply" value="{{$job->id}}">
+                                    <input type="submit" value="Apply" class="btn btn-secondary">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

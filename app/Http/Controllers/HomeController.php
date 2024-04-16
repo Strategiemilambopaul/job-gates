@@ -5,32 +5,62 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Job_save;
+use App\Models\Job_apply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
         
-        $jobs=Job::all();
+            $jobs=Job::all();
+        
+        
+        
         return view('index',compact('jobs'));
     }
     public function account()
     {
         return view('account');
     }
-    public function job_applied()
+    public function setJob(Request $request)
     {
-        return view('job-applied');
+        
+        if(isset($request->save)){
+
+            Job_save::create([
+                'user_id'=>Auth::id(),
+                'job_id'=>$request->save
+            ]);
+        }else{
+            Job_apply::create([
+                'user_id'=>Auth::id(),
+                'job_id'=>$request->apply
+            ]);
+        }
+        return redirect()->back();
+    }
+    public function job_applied(Request $request)
+    {
+       $user = User::find(Auth::id());
+        $jobs=$user->job_applies;
+        return view('job-applied', compact('jobs'));
+    }
+    public function saved_jobs(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $jobs=$user->job_saves;
+       
+        return view('saved-jobs', compact('jobs'));
     }
     public function job_detail(Request $request)
     {
         
         $job=Job::find($request->id);
-        
-        
-
         return view('job-detail', compact('job'));
     }
     public function my_jobs()
@@ -38,14 +68,20 @@ class HomeController extends Controller
         $jobs=User::find(Auth::id())->jobs;
         return view('my-jobs', compact('jobs'));
     }
-    public function jobs()
+    public function jobs(Request $request)
     {
-        return view('jobs');
+        if(!isset($request->location) and isset($request->keywords) and isset($request->category)){
+            $jobs=DB::table('jobs')
+                ->where('keywords','=',$request->keywords)
+                ->where('location','=',$request->location)
+                ->where('category','=', $request->category)
+                ->get();
+        }else{ 
+            $jobs=Job::all();
+        }
+        return view('jobs', compact('jobs'));
     }
-    public function saved_jobs()
-    {
-        return view('saved-jobs');
-    }
+    
     public function post_job(Request $request)
     {
         $job = Job::find($request->id);
@@ -111,10 +147,23 @@ class HomeController extends Controller
 
     public function job_delete(Request $request)
     {
-       dd($request);
+       
         
        Job::find($request->delete)->delete();
         return redirect('my-jobs', 302);
+    }
+    public function job_saves_delete(Request $request)
+    {
+       
+        $Job_save=Job_save::where('job_id','=',$request->delete)->delete();
+        return redirect('saved-jobs', 302);
+    }
+    public function job_applies_delete(Request $request)
+    {
+       
+        
+        $Job_apply=Job_apply::where('job_id','=',$request->delete)->delete();
+        return redirect('job-applied', 302);
     }
     
 
